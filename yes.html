@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Knew It</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #ffb6c1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            flex-direction: column;
+        }
+
+        .heart {
+            font-size: 8rem;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg) scale(1); }
+            to { transform: rotate(360deg) scale(1.2); }
+        }
+
+        h1 {
+            margin-top: 2rem;
+            font-size: 3rem;
+            color: #d63384;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="heart">❤️</div>
+    <h1>I knew it</h1>
+
+</body>
+</html>
