@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> NOVA </title>
+    <title>NOVA</title>
+
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             background-color: #ffe6f2;
             margin: 0;
             padding: 0;
             overflow: hidden;
-            position: relative;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
+        /* Floating hearts */
         .heart {
             position: absolute;
             font-size: 2rem;
@@ -36,7 +38,6 @@
         .container {
             text-align: center;
             z-index: 10;
-            position: relative;
         }
 
         h1 {
@@ -46,9 +47,8 @@
         }
 
         .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
+            position: relative;
+            height: 120px;
         }
 
         button {
@@ -57,41 +57,39 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
         #yes {
             background-color: pink;
             color: white;
+            margin-right: 2rem;
         }
 
         #no {
             background-color: #FF6961;
             color: black;
+            position: absolute;
+            transition: transform 0.6s ease-in-out;
         }
 
-        #yes:hover {
-            transform: scale(1.1);
-        }
-
+        #yes:hover,
         #no:hover {
             transform: scale(1.1);
         }
 
+        /* YES overlay */
         .overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            inset: 0;
+            background: rgba(0,0,0,0.8);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 20;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.5s ease;
+            transition: 0.5s ease;
+            z-index: 20;
         }
 
         .overlay.show {
@@ -100,27 +98,25 @@
         }
 
         .message {
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: white;
-            text-align: center;
+            animation: pop 0.8s ease;
         }
 
-        .yes-message {
-            animation: fadeIn 1s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes pop {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
+
 <body>
-    <!-- Hearts background -->
+
+    <!-- Hearts -->
     <div id="hearts"></div>
 
-    <!-- Main content -->
-    <div class="container" id="main">
+    <!-- Main -->
+    <div class="container">
         <h1>Will you be my Valentine?</h1>
         <div class="buttons">
             <button id="yes">Yes</button>
@@ -128,14 +124,9 @@
         </div>
     </div>
 
-    <!-- Overlay for No response -->
-    <div class="overlay" id="no-overlay">
-        <div class="message">I don't accept no as an answer!</div>
-    </div>
-
-    <!-- Overlay for Yes response -->
+    <!-- YES overlay -->
     <div class="overlay" id="yes-overlay">
-        <div class="message yes-message">I knew it! ❤️</div>
+        <div class="message">I knew it ❤️</div>
     </div>
 
     <script>
@@ -143,47 +134,36 @@
         const heartsContainer = document.getElementById('hearts');
         for (let i = 0; i < 50; i++) {
             const heart = document.createElement('div');
-            heart.classList.add('heart');
+            heart.className = 'heart';
             heart.textContent = '❤️';
             heart.style.left = Math.random() * 100 + '%';
             heart.style.animationDelay = Math.random() * 3 + 's';
             heartsContainer.appendChild(heart);
         }
 
-        // Elements
-        const main = document.getElementById('main');
-        const noOverlay = document.getElementById('no-overlay');
-        const yesOverlay = document.getElementById('yes-overlay');
         const yesBtn = document.getElementById('yes');
         const noBtn = document.getElementById('no');
+        const yesOverlay = document.getElementById('yes-overlay');
 
-        let noClickCount = 0;
+        let noClicks = 0;
 
-        // No button click
+        // NO button slides away smoothly
         noBtn.addEventListener('click', () => {
-            noClickCount++;
-            noOverlay.classList.add('show');
-            setTimeout(() => {
-                noOverlay.classList.remove('show');
-                // Move No button to a random position
-                const randomX = Math.random() * 80 + 10; // 10% to 90%
-                const randomY = Math.random() * 80 + 10;
-                noBtn.style.position = 'absolute';
-                noBtn.style.left = randomX + '%';
-                noBtn.style.top = randomY + '%';
-                // Make Yes button bigger
-                yesBtn.style.transform = `scale(${1 + noClickCount * 0.1})`;
-            }, 2000);
+            noClicks++;
+
+            const x = Math.random() * 400 - 200; // -200px to 200px
+            const y = Math.random() * 300 - 150; // -150px to 150px
+
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+            yesBtn.style.transform = `scale(${1 + noClicks * 0.1})`;
         });
 
-        // Yes button click
+        // YES button
         yesBtn.addEventListener('click', () => {
             yesOverlay.classList.add('show');
-            setTimeout(() => {
-                // Optionally, you can add more logic here, like redirecting or hiding elements
-            }, 3000);
         });
     </script>
-</body>
 
+</body>
 </html>
