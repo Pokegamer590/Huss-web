@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,7 +17,8 @@
             align-items: center;
         }
 
-        .heart {
+        /* ---------- HEARTS BACKGROUND ---------- */
+        .bg-heart {
             position: absolute;
             font-size: 2rem;
             animation: float 3s ease-in-out infinite;
@@ -31,9 +32,15 @@
             100% { transform: translateY(-100vh) scale(1); opacity: 0; }
         }
 
-        .container {
+        /* ---------- PAGE 1 ---------- */
+        .page {
+            display: none;
             text-align: center;
             z-index: 10;
+        }
+
+        .page.active {
+            display: block;
         }
 
         h1 {
@@ -72,14 +79,45 @@
         button:hover {
             transform: scale(1.1);
         }
+
+        /* ---------- PAGE 2 ---------- */
+        #yes-page {
+            background: #ffb6c1;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .big-heart {
+            font-size: 8rem;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg) scale(1); }
+            to { transform: rotate(360deg) scale(1.2); }
+        }
+
+        .yes-text {
+            margin-top: 2rem;
+            font-size: 3rem;
+            color: #d63384;
+        }
     </style>
 </head>
 
 <body>
 
+    <!-- Floating hearts -->
     <div id="hearts"></div>
 
-    <div class="container">
+    <!-- PAGE 1 -->
+    <div class="page active" id="question-page">
         <h1>Will you be my Valentine?</h1>
         <div class="buttons">
             <button id="yes">Yes</button>
@@ -87,12 +125,18 @@
         </div>
     </div>
 
+    <!-- PAGE 2 -->
+    <div class="page" id="yes-page">
+        <div class="big-heart">❤️</div>
+        <div class="yes-text">I knew it</div>
+    </div>
+
     <script>
-        // Hearts
+        // Background hearts
         const heartsContainer = document.getElementById('hearts');
         for (let i = 0; i < 50; i++) {
             const heart = document.createElement('div');
-            heart.className = 'heart';
+            heart.className = 'bg-heart';
             heart.textContent = '❤️';
             heart.style.left = Math.random() * 100 + '%';
             heart.style.animationDelay = Math.random() * 3 + 's';
@@ -102,8 +146,12 @@
         const yesBtn = document.getElementById('yes');
         const noBtn = document.getElementById('no');
 
+        const questionPage = document.getElementById('question-page');
+        const yesPage = document.getElementById('yes-page');
+
         let noClicks = 0;
 
+        // NO button slides away
         noBtn.addEventListener('click', () => {
             noClicks++;
 
@@ -114,9 +162,10 @@
             yesBtn.style.transform = `scale(${1 + noClicks * 0.1})`;
         });
 
-        // Redirect to second page
+        // YES button switches page
         yesBtn.addEventListener('click', () => {
-            window.location.href = "yes.html";
+            questionPage.classList.remove('active');
+            yesPage.classList.add('active');
         });
     </script>
 
