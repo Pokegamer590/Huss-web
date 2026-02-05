@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,20 +10,16 @@
             font-family: Arial, sans-serif;
             background-color: #ffe6f2;
             margin: 0;
-            padding: 0;
             overflow: hidden;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
         }
 
-        /* Floating hearts */
         .heart {
             position: absolute;
             font-size: 2rem;
-            color: #ff69b4;
             animation: float 3s ease-in-out infinite;
             opacity: 0;
         }
@@ -73,49 +69,16 @@
             transition: transform 0.6s ease-in-out;
         }
 
-        #yes:hover,
-        #no:hover {
+        button:hover {
             transform: scale(1.1);
-        }
-
-        /* YES overlay */
-        .overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.5s ease;
-            z-index: 20;
-        }
-
-        .overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .message {
-            font-size: 2.5rem;
-            color: white;
-            animation: pop 0.8s ease;
-        }
-
-        @keyframes pop {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Hearts -->
     <div id="hearts"></div>
 
-    <!-- Main -->
     <div class="container">
         <h1>Will you be my Valentine?</h1>
         <div class="buttons">
@@ -124,13 +87,8 @@
         </div>
     </div>
 
-    <!-- YES overlay -->
-    <div class="overlay" id="yes-overlay">
-        <div class="message">I knew it ❤️</div>
-    </div>
-
     <script>
-        // Generate hearts
+        // Hearts
         const heartsContainer = document.getElementById('hearts');
         for (let i = 0; i < 50; i++) {
             const heart = document.createElement('div');
@@ -143,25 +101,22 @@
 
         const yesBtn = document.getElementById('yes');
         const noBtn = document.getElementById('no');
-        const yesOverlay = document.getElementById('yes-overlay');
 
         let noClicks = 0;
 
-        // NO button slides away smoothly
         noBtn.addEventListener('click', () => {
             noClicks++;
 
-            const x = Math.random() * 400 - 200; // -200px to 200px
-            const y = Math.random() * 300 - 150; // -150px to 150px
+            const x = Math.random() * 400 - 200;
+            const y = Math.random() * 300 - 150;
 
             noBtn.style.transform = `translate(${x}px, ${y}px)`;
-
             yesBtn.style.transform = `scale(${1 + noClicks * 0.1})`;
         });
 
-        // YES button
+        // Redirect to second page
         yesBtn.addEventListener('click', () => {
-            yesOverlay.classList.add('show');
+            window.location.href = "yes.html";
         });
     </script>
 
